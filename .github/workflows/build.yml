@@ -9,6 +9,7 @@ jobs:
     name: Build Github Page
     runs-on: windows-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Set Git Name And Email
         run: |
           $user = if ($env:USER_NAME) { $env:USER_NAME } else { 'github-actions[bot]' }
@@ -22,8 +23,11 @@ jobs:
       - name: Build
         run: |
           $env:Path = "C:\mdbook;$env:Path"
-          cd C:\ ; git clone --depth=1 https://github.com/axojhf/rust-course-fork -b main ; cd rust-course-fork
-          mdbook build ; cp ./assets/CNAME ./book/ ; cp ./assets/*.html ./book/ ; cp ./assets/sitemap.xml ./book/
+          cd C:\ ; git clone --depth=1 https://github.com/axojhf/rust-course-fork -b main ; cd rust-course-fork ; mdbook build
+          # cp ./assets/CNAME ./book/ ; cp ./assets/*.html ./book/ ; cp ./assets/sitemap.xml ./book/
+          Copy-Item -Path ./assets/CNAME -Destination ./book/
+          Copy-Item -Path ./assets/*.html -Destination ./book/
+          Copy-Item -Path ./assets/sitemap.xml -Destination ./book/
           cd book ; git init ; git add . ; git commit -m 'deploy' ; git branch -M gh-pages
           git remote add origin https://github.com/axojhf/rust-course-fork ; git push -u -f origin gh-pages
 

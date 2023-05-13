@@ -29,6 +29,6 @@ jobs:
           Copy-Item -Path ./assets/*.html -Destination ./book/
           Copy-Item -Path ./assets/sitemap.xml -Destination ./book/
           cd book ; git init ; git add . ; git commit -m 'deploy' ; git branch -M gh-pages
-          git remote add origin https://github.com/axojhf/rust-course-fork ; git push -u -f origin gh-pages
+          git remote add origin git@github.com:axojhf/rust-course-fork.git ; git push -u -f origin gh-pages
 
 
